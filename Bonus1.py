@@ -9,10 +9,10 @@ import numpy
 #sample code for FFT
 def myfft(vec):
     n=vec.size
-    #FFT of length 1 is itself, so quit
+    
     if n==1:
         return vec
-    #pull out even and odd parts of the data
+   
     myeven=vec[0::2]
     myodd=vec[1::2]
 
@@ -44,22 +44,13 @@ def myfft3(vec):
     twid1=exp(-2*pi*j*arange(0,nn)/n)
     twid2=exp(-4*pi*j*arange(0,nn)/n)
 
-    #For base-3, we get get a 3-segment fft, with blocks for 0<=k<n/3, n/3<=k<2n/3, 2n/3<=k<n
-    #for base 2, the ffts got combined with a bonus +/-1.  For the base-3
-    #ffts, we get things that are sin/cos of 120/240/480 degrees, but 480 is equivalent to 120
-
-    f1=exp(-2*pi*j/3) #these two guys are for n/3<=k/2n/3
+    f1=exp(-2*pi*j/3) #n/3<=k/2n/3
     f2=exp(-4*pi*j/3)
-    f1b=f2;          #and these are for 2n/3<=k<n
-    f2b=f1; #started off as -8*pi*j/3
+    f1b=f2;          # 2n/3<=k<n
+    f2b=f1; 
 
-    #the sub-ffts only ever show up multiplied by their twiddle factors.  We can save a bit
-    #of work by multiplying them straight off.
-    #aft=myfft3(mya)
     aft=mya
-    #bft=myfft3(myb)*twid1
     bft=myb*twid1
-    #cft=myfft3(myc)*twid2
     cft=myc*twid2
     
     print("1:" + str(aft))
@@ -74,7 +65,6 @@ def myfft3(vec):
     ft=concatenate((ft1,ft2,ft3))
 
     return ft
-
 x = numpy.random.randn(3)
 #x1 = myfft(x)
 x2 = myfft3(x)
