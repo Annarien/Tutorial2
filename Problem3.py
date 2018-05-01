@@ -10,7 +10,7 @@ from matplotlib import pyplot as plt
 
 #from question 1 and 2, get the definitions
 
-def myshift (y,n=0):
+def shift (y,n=0):
     vec=0*y        #make a vector of zeros the same length as the input vector
     vec[n]=1
     print (vec)
@@ -18,7 +18,7 @@ def myshift (y,n=0):
     fft2=fft(y)
     return real(ifft(fft1*fft2))
 
-def mycorrfun(x,y):
+def corrfun(x,y):
     assert(x.size==y.size)      #if the vectors are different sizes
     fft1=fft(x)                 #fft of x
     fft2=fft(y)                 #fft of y
@@ -26,6 +26,8 @@ def mycorrfun(x,y):
     #f*g =integral of f(x)g(x+y)dx AND}
     #f*g=ifft(fft1*conj(fft2))        }these are correlations
     fft2conj=numpy.conj(fft2)   #numpy provides a conj operator of fft2
+    return numpy.real(ifft(fft1*fft2conj))
+
 
 #paramter values
 start = -10
@@ -38,12 +40,12 @@ if __name__=='__main__':
         y = numpy.exp(-0.5*x**2/sigma**2)
 
         #correlation by itself corrfun(y,y)
-        ycorr = mycorrfun(y,y)
+        ycorr = corrfun(y,y)
 
         yby4 = (y.size)/4
-        yshift= myshift(y,yby4)
+        yshift= shift(y,yby4)
         #shift correlation by itself
-        yshiftcorr = mycorrfun(yshift,yshift)
+        yshiftcorr = corrfun(yshift,yshift)
 
         #error of correlation between the shift and the correlation of the y function is
         #the average of the absolute value of the difference between the two
